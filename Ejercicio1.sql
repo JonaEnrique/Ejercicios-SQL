@@ -180,3 +180,5 @@ from Material
 where CodMat in(select CodMat
 				from Compuesto_Por
 				where CodArt=2)
+
+--prueba
