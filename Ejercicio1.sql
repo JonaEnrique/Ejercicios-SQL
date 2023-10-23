@@ -156,15 +156,6 @@ where T.Nro=1
 
 --11
 
-select CodArt, Descripcion, Precio
-from Articulo
-
-select CodMat, Descripcion
-from Material
-
-select CodArt, CodMat
-from Compuesto_Por
-
 select M.Descripcion
 from Material M inner join Compuesto_por C on M.CodMat=C.CodMat
 where C.CodArt=2
@@ -175,10 +166,36 @@ where CodMat in(select CodMat
 				from Compuesto_Por
 				where CodArt=2)
 
-select Descripcion
-from Material
-where CodMat in(select CodMat
-				from Compuesto_Por
-				where CodArt=2)
+--12
 
---prueba
+select distinct PP.Nombre
+from Compuesto_Por C inner join Provisto_Por P on C.CodMat=P.CodMat
+	 inner join Tiene T on T.CodArt=C.CodArt
+	 inner join Proveedor PP on P.CodProv=PP.CodProv
+where T.Nro=(select Nro
+			 from Almacen
+			 where Responsable='Rogelio Rodriguez')
+
+select distinct P.Nombre
+from Compuesto_Por C inner join Provisto_Por PP on C.CodMat=PP.CodMat
+	 inner join Tiene T on T.CodArt=C.CodArt
+	 inner join Proveedor P on PP.CodProv=P.CodProv
+	 inner join Almacen A on A.Nro=T.Nro
+where A.Responsable = 'Rogelio Rodriguez'
+
+--13
+
+select distinct A.CodArt, A.Descripcion --A.CodMat, A.Descripcion
+from Compuesto_Por CP inner join Provisto_Por PP on CP.CodMat=PP.CodMat
+	 inner join Proveedor P on P.CodProv=PP.CodProv
+	 inner join Articulo A on A.CodArt=CP.CodArt
+where P.Nombre like 'Fiambres Perez'
+
+--14
+
+select distinct PP.CodProv, P.Nombre
+from Provisto_Por PP inner join Compuesto_Por CP on PP.CodMat=CP.CodMat
+	 inner join Articulo A on A.CodArt=CP.CodArt
+	 inner join Proveedor P on P.CodProv=PP.CodProv
+where A.Precio<9
+     
