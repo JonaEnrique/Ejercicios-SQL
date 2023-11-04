@@ -111,5 +111,18 @@ from (select P.NroProv, P.NroArt, C.CiudadCli
 where P.CiudadCli='San Francisco'
 group by P.NroProv, P.CiudadCli
 
+--8
+
+select distinct Pr.NomProv
+from Proveedor Pr inner join Pedido Pe on Pr.NroProv=Pe.NroProv
+				  inner join Articulo A on Pe.NroArt=A.NroArt
+where Pr.Categoria = (select MAX(Categoria)
+					  from Proveedor) and A.Descripcion='T-shirt Red'
+
+--corregir porque no lo guarde
+
+select *
+from Articulo
+
 
 
